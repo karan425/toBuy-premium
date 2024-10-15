@@ -74,11 +74,21 @@
             </button>
         </div> 
         <div class="container">
-            <header class="d-flex justify-content-center py-4">
-                <ul class="nav nav-pills">
-                    <li class="nav-item"><a onclick="goHome()" class="nav-link px-3 " aria-current="page">Home</a></li>
-                    <li class="nav-item"><a onclick="goToCompleted()" class="nav-link active">Completed</a></li>
-                </ul>
+            <header class="py-3">
+                <div class="d-flex justify-content-evenly">
+                    <button type="button" onclick="goHome()" class="btn btn-light position-relative">
+                        Home
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="total_items_count">
+                          0
+                        </span>
+                      </button>
+                      <button type="button"  onclick="goToCompleted()" class="btn btn-primary position-relative">
+                        Completed
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success" id="total_completedItem_count">
+                         0
+                        </span>
+                      </button>
+                </div>
             </header>
     
             <!-- Table for Completed Items -->
@@ -154,6 +164,26 @@
         }
 
         renderCompletedItems();
+
+        // Function to update item counts
+        function getItems() {
+            let items = localStorage.getItem('items');
+            return items ? JSON.parse(items) : [];
+        }
+
+        function getCompletedItems() {
+            let completedItems = localStorage.getItem('completedItems');
+            return completedItems ? JSON.parse(completedItems) : [];
+        }
+
+        function updateItemCounts() {
+            let items = getItems();
+            let completedItems = getCompletedItems();
+            document.getElementById("total_items_count").textContent = items.length;
+            document.getElementById("total_completedItem_count").textContent = completedItems.length;
+        }
+
+        updateItemCounts();
     </script>
      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert2 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

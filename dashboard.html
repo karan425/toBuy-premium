@@ -81,12 +81,21 @@
             </button>
         </div>
         <div class="container">
-            <header class="d-flex justify-content-center py-4">
-                <ul class="nav nav-pills">
-                    <li class="nav-item"><a onclick="goHome()" class="nav-link px-3 active" aria-current="page">Home</a>
-                    </li>
-                    <li class="nav-item"><a onclick="goToCompleted()" class="nav-link">Completed </a></li>
-                </ul>
+            <header class="py-3">
+                <div class="d-flex justify-content-evenly">
+                    <button type="button" onclick="goHome()" class="btn btn-primary position-relative">
+                        Home
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="total_items_count">
+                          0
+                        </span>
+                      </button>
+                      <button type="button"  onclick="goToCompleted()" class="btn btn-light position-relative">
+                        Completed
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success" id="total_completedItem_count">
+                         0
+                        </span>
+                      </button>
+                </div>
             </header>
             <div class="input-group mb-3">
                 <input type="text" id="itemInput" class="form-control" placeholder="Add Items">
@@ -256,6 +265,16 @@
 
         // Initial rendering of items
         renderItems();
+
+         // Function to update item counts
+         function updateItemCounts() {
+            let items = getItems();
+            let completedItems = getCompletedItems();
+            document.getElementById("total_items_count").textContent = items.length;
+            document.getElementById("total_completedItem_count").textContent = completedItems.length;
+        }
+        
+        updateItemCounts();
     </script>
     <script src="./Auth.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert2 -->
