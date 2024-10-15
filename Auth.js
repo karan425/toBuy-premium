@@ -44,7 +44,7 @@ document.getElementById('logout').addEventListener('click', function () {
                 showConfirmButton: false
             }).then(() => {
                 // Redirect to the login page
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
             });
         });
         }
