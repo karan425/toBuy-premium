@@ -164,6 +164,7 @@
                 </tr>`;
                 itemList.innerHTML += row;
             });
+            updateItemCounts();
         }
 
         // Function to confirm and complete an item with SweetAlert
@@ -180,7 +181,7 @@
                 if (result.isConfirmed) {
                     // If confirmed, mark the item as complete
                     completeItem(index);
-
+                    updateItemCounts();
                     // Auto-remove the success message popup
                     Swal.fire({
                         title: 'Completed!',
@@ -214,6 +215,7 @@
             items.splice(index, 1);
             saveItems(items);
             renderItems();
+            updateItemCounts();
         }
 
         // Function to move an item to the completed list
@@ -231,6 +233,7 @@
 
             // Re-render both tables
             renderItems();
+            updateItemCounts();
         }
 
         // Reset all items and completed items
