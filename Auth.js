@@ -25,7 +25,29 @@ firebase.auth().onAuthStateChanged((user) => {
 
 // Logout functionality
 document.getElementById('logout').addEventListener('click', function () {
-    firebase.auth().signOut().then(() => {
-        window.location.href = 'index.html'; // Redirect to login page
-    });
+    Swal.fire({
+        title: "Are you sure you want to logout?",
+        text: "You will be logged out and redirected to the login page.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, logout!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+            firebase.auth().signOut().then(() => {
+            Swal.fire({
+                title: "Logged Out!",
+                text: "You have been successfully logged out.",
+                icon: "success",
+                timer: 1500,  // Auto close after 1.5 seconds
+                showConfirmButton: false
+            }).then(() => {
+                // Redirect to the login page
+                window.location.href = 'login.html';
+            });
+        });
+        }
+      });
+    
 });
