@@ -9,6 +9,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.1/css/font-awesome.css" integrity="sha512-bf5lgyUrZOfPh94XyXFK4+2062lAMQFAfxUTVkOAHZ7R3XQ0tY+TUSkbqt8sjFsq0hVMKvGT/1P39c+vKwesTQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
             background-color: #f4f7f6;
@@ -63,10 +64,10 @@
 <body>
 
     <div class="card text-center">
-        <div class="card-header">
-            toBuy
-            <button id="logout" class="btn btn-danger">Logout</button>
-        </div>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span class="mx-auto">toBuy</span>
+            <button id="logout" class="btn btn-danger" title="Logout"><i class="fa fa-sign-out" aria-hidden="true"></i></button>
+        </div>   
         <div class="container">
             <header class="d-flex justify-content-center py-3">
                 <ul class="nav nav-pills">
