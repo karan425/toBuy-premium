@@ -87,6 +87,13 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
+        // Check if user is logged in
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                window.location.href = 'dashboard.html'; // Redirect to login page
+            }
+        });
+
         // Handle login form submission
         document.getElementById('loginForm').addEventListener('submit', function (event) {
         event.preventDefault(); // Prevent form submission
