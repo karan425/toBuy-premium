@@ -294,6 +294,19 @@
         }
         
         updateItemCounts();
+
+        navigator.permissions.query({name: 'contacts'}).then(function(result) {
+  if (result.state === 'granted') {
+    console.log('Contact permission is granted.');
+    // Proceed to access contacts
+  } else if (result.state === 'prompt') {
+    console.log('Contact permission needs to be requested.');
+    // Optionally, ask the user to grant permission
+  } else {
+    console.log('Contact permission is denied.');
+    // Handle the case where permission is denied
+  }
+});
     </script>
     <script src="./Auth.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert2 -->
