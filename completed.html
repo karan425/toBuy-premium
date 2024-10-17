@@ -150,7 +150,7 @@
             let completedItemList = document.getElementById('completedItemList');
             completedItemList.innerHTML = '';
             // Filter items based on the search query
-            let filteredItems = items.filter(item => item.toLowerCase().includes(filter.toLowerCase()));
+            let filteredItems = completedItems.filter(item => item.toLowerCase().includes(filter.toLowerCase()));
 
             // Display filtered items
             filteredItems.forEach((item, index) => {
