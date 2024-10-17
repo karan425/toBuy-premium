@@ -65,6 +65,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Items</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody id="completedItemList">
@@ -90,6 +91,19 @@
             return completedItems ? JSON.parse(completedItems) : [];
         }
 
+        function getPendingItems() {
+            let items = localStorage.getItem('items');
+            return items ? JSON.parse(items) : [];
+        }
+
+        function setPendingItems(items) {
+            localStorage.setItem('items', JSON.stringify(items));
+        }
+
+        function setCompletedItems(completedItems) {
+            localStorage.setItem('completedItems', JSON.stringify(completedItems));
+        }
+
         function renderCompletedItems(filter = '') {
             let completedItems = getCompletedItems();
             let completedItemList = document.getElementById('completedItemList');
@@ -103,8 +117,49 @@
                 <tr>
                     <th scope="row">${index + 1}</th>
                     <td>${item}</td>
+                    <td>
+                        <button class="btn btn-outline-warning btn-sm" onclick="revokeItem(${index})"><i class="fa fa-reply" aria-hidden="true"></i></button>
+                    </td>
                 </tr>`;
                 completedItemList.innerHTML += row;
+            });
+            updateItemCounts();
+        }
+
+        function revokeItem(index) {
+            let completedItems = getCompletedItems();
+            let pendingItems = getPendingItems();
+
+            // Move the item back to the pending list
+            let itemToRevoke = completedItems.splice(index, 1)[0];
+            pendingItems.push(itemToRevoke);
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This will moved back to the pending list!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, moved back!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Update the local storage
+                    setPendingItems(pendingItems);
+                    setCompletedItems(completedItems);
+
+                    // Re-render the completed items list
+                    renderCompletedItems();
+                    
+                    Swal.fire({
+                        title: 'Item Revoked!',
+                        text: 'The item has been moved back to the pending list.',
+                        icon: 'success',
+                        timer: 800, // Auto close after 2 seconds
+                        timerProgressBar: true,
+                        showConfirmButton: false // Remove the "OK" button
+                    });
+                }
             });
             updateItemCounts();
         }
