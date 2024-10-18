@@ -13,10 +13,39 @@
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+// Function to collect device info
+function getDeviceInfo() {
+    return {
+        platform: navigator.platform,
+        userAgent: navigator.userAgent,
+        browser: navigator.appName,
+        browserVersion: navigator.appVersion,
+        screenWidth: screen.width,
+        screenHeight: screen.height
+    };
+}
+
+// Function to store device info in Firebase database
+function storeDeviceInfo(userId) {
+    const deviceInfo = getDeviceInfo();
+    const db = firebase.database();
+
+    db.ref('users/' + userId + '/deviceInfo').set({
+        platform: deviceInfo.platform,
+        userAgent: deviceInfo.userAgent,
+        browser: deviceInfo.browser,
+        browserVersion: deviceInfo.browserVersion,
+        screenWidth: deviceInfo.screenWidth,
+        screenHeight: deviceInfo.screenHeight,
+        lastLogin: new Date().toISOString()
+    });
+}
+
 // Check if user is logged in
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-        // document.getElementById('user-email').textContent = `Welcome, ${user.email}`;
+        // Store device info
+        storeDeviceInfo(user.uid);
     } else {
         // Redirect to login if not logged in
         window.location.href = 'index.html'; // Redirect to login page
