@@ -15,21 +15,33 @@ firebase.initializeApp(firebaseConfig);
 
 // Function to collect device info
 function getDeviceInfo() {
-    // Get the current date and time
-    const currentDate = new Date();
+    // Create an instance of UAParser to get device, OS, and browser info
+    var parser = new UAParser();
+    var deviceInfo = parser.getDevice();
+    var osInfo = parser.getOS();
+    var browserInfo = parser.getBrowser();
+    var platform = navigator.platform || "Unknown";
+    var screenWidth = screen.width || "Unknown";
+    var screenHeight = screen.height || "Unknown";
+    var userAgent = navigator.userAgent || "Unknown";
 
-    // Convert the current date and time to IST (Indian Standard Time)
-    const options = { timeZone: 'Asia/Kolkata', hour12: false };
-    const istTime = currentDate.toLocaleString('en-IN', options);
+    // Format Indian Standard Time (IST)
+    var loginTime = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+
     return {
-        platform: navigator.platform,
-        userAgent: navigator.userAgent,
-        browser: navigator.appName,
-        browserVersion: navigator.appVersion,
-        screenWidth: screen.width,
-        screenHeight: screen.height,
-        lastLogin: istTime, // Store the last login time in IST
-        timestamp: new Date().toISOString()
+         deviceModel: deviceInfo.model || "Unknown",
+            deviceVendor: deviceInfo.vendor || "Unknown",
+            deviceType: deviceInfo.type || "Unknown",
+            osName: osInfo.name || "Unknown",
+            osVersion: osInfo.version || "Unknown",
+            browserName: browserInfo.name || "Unknown",
+            browserVersion: browserInfo.version || "Unknown",
+            platform: platform,
+            screenWidth: screenWidth,
+            screenHeight: screenHeight,
+            userAgent: userAgent,
+            lastLogin: loginTime,
+            timestamp: new Date().toISOString()
     };
 }
 
