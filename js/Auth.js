@@ -15,13 +15,21 @@ firebase.initializeApp(firebaseConfig);
 
 // Function to collect device info
 function getDeviceInfo() {
+    // Get the current date and time
+    const currentDate = new Date();
+
+    // Convert the current date and time to IST (Indian Standard Time)
+    const options = { timeZone: 'Asia/Kolkata', hour12: false };
+    const istTime = currentDate.toLocaleString('en-IN', options);
     return {
         platform: navigator.platform,
         userAgent: navigator.userAgent,
         browser: navigator.appName,
         browserVersion: navigator.appVersion,
         screenWidth: screen.width,
-        screenHeight: screen.height
+        screenHeight: screen.height,
+        lastLogin: istTime, // Store the last login time in IST
+        timestamp: new Date().toISOString()
     };
 }
 
@@ -30,15 +38,11 @@ function storeDeviceInfo(userId) {
     const deviceInfo = getDeviceInfo();
     const db = firebase.database();
 
-    db.ref('users/' + userId + '/deviceInfo').set({
-        platform: deviceInfo.platform,
-        userAgent: deviceInfo.userAgent,
-        browser: deviceInfo.browser,
-        browserVersion: deviceInfo.browserVersion,
-        screenWidth: deviceInfo.screenWidth,
-        screenHeight: deviceInfo.screenHeight,
-        lastLogin: new Date().toISOString()
-    });
+    // Generate a unique key for each new login entry
+    const newDeviceKey = db.ref('users/' + userId + '/deviceInfo').push().key;
+
+    // Store the device info under this unique key (preserves all records)
+    db.ref('users/' + userId + '/deviceInfo/' + newDeviceKey).set(deviceInfo);
 }
 
 // Check if user is logged in
