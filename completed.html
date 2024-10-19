@@ -149,6 +149,10 @@
                     setPendingItems(pendingItems);
                     setCompletedItems(completedItems);
 
+                    // store activity history
+                    firebase.auth().onAuthStateChanged((user) => {
+                        storeDeviceInfo(user.uid);
+                    });
                     // Re-render the completed items list
                     renderCompletedItems();
                     

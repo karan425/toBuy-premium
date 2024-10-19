@@ -144,6 +144,11 @@
                     // If confirmed, mark the item as complete
                     completeItem(index);
                     updateItemCounts();
+
+                    // store activity history
+                    firebase.auth().onAuthStateChanged((user) => {
+                        storeDeviceInfo(user.uid);
+                    });
                     // Auto-remove the success message popup
                     Swal.fire({
                         title: 'Completed!',
@@ -214,6 +219,10 @@
                     localStorage.removeItem('items');
                     localStorage.removeItem('completedItems');
 
+                    // store activity history
+                    firebase.auth().onAuthStateChanged((user) => {
+                        storeDeviceInfo(user.uid);
+                    });
                     // Auto-remove the success message popup
                     renderItems();
                     Swal.fire({
