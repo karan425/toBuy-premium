@@ -190,6 +190,8 @@
             let items = getItems();
             let completedItems = getCompletedItems();
 
+            console.log([index, items]);
+
             // Remove the item from the pending list and add to the completed list
             let completedItem = items.splice(index, 1)[0];
             completedItems.push(completedItem);
