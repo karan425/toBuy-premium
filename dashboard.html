@@ -114,6 +114,9 @@
             itemList.innerHTML = '';
             let filteredItems = items.filter(item => item.toLowerCase().includes(filter.toLowerCase()));
 
+            // Reverse the order
+            filteredItems.reverse();
+
             // Display filtered items
             filteredItems.forEach((item, index) => {
                 let row = `
